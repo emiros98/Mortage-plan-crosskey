@@ -1,10 +1,10 @@
-import main.Java.Calculator;
 
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -37,21 +37,45 @@ public class UI {
 
         //JButton button = new JButton("Click Me!");
 
-        Calculator c = new Calculator();
+
+        Parser p = new Parser();
+
+
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filepath));
+            JOptionPane.showMessageDialog(frame, createMessage(p.parse(reader)));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frame, "File cannot be read");
+        }
+
         //JTextField tf = new JTextField(c.calculateInterest(filepath));
-        JTextArea area=new JTextArea();
+        //JTextArea area=new JTextArea();
 
         //panel.add(button);
-        panel.add(area);
-        area.setFont(new Font("Serif", Font.PLAIN, 12));
+        //panel.add(area);
+        //area.setFont(new Font("Serif", Font.PLAIN, 12));
         //area.setText(tf.getText());
-        try {
+        /*try {
             BufferedReader reader = new BufferedReader(new FileReader(filepath));
             area.setText(c.calculateInterest(reader));
         } catch (IOException e) {
             area.setText("Could not read file");
-        }
+        } catch (NullPointerException ignored) {}*/
 
         frame.getContentPane().add(panel, BorderLayout.CENTER);
+    }
+
+    private static String createMessage(ArrayList<ArrayList<String>> prospects) {
+        StringBuilder sb = new StringBuilder();
+        Calculator c = new Calculator();
+
+        int i = 1;
+        for (ArrayList<String> l: prospects) {
+            sb.append("Prospect ").append(i).append(": ").append(c.calculate(l)).append("\n");
+        }
+
+        return sb.toString();
+
     }
 }
