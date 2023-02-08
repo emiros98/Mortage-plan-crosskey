@@ -1,26 +1,30 @@
+package main.Java;
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Calculator {
 
-    ArrayList<ArrayList<String>> prospects = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> prospects = new ArrayList<>();
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Calculator c = new Calculator();
         String absolutePath = new File("").getAbsolutePath();
         c.calculateInterest(absolutePath + "\\prospects.txt");
-    }
+    }*/
 
-    private void calculateInterest(String filepath) {
-        readInput(filepath);
+    public String calculateInterest(BufferedReader file) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        parse(file);
         int i = 1;
         for (ArrayList<String> l: prospects) {
-            System.out.println("Prospect " + i + ": " + calculate(l));
+            sb.append("Prospect ").append(i).append(": ").append(calculate(l)).append("\n");
         }
+
+        return sb.toString();
     }
 
-    private void readInput(String filepath) {
+    /*private void readInput(BufferedReader file) {
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filepath));
@@ -30,9 +34,10 @@ public class Calculator {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     private void parse(BufferedReader reader) throws IOException {
+        reader.readLine(); //Remove first line of input, containing headers
         int c = reader.read();
         char character = (char) c;
         ArrayList<String> line = new ArrayList<>();
@@ -99,7 +104,7 @@ public class Calculator {
      * Calculates a^b
      * Returns result
      */
-    protected double pow(double a, double b){
+    private double pow(double a, double b){
         double res = a;
         for (int i = 1; i < b; i++){
             res = res*a;
@@ -112,7 +117,7 @@ public class Calculator {
      * Function for rounding a double to two decimals
      * @param a the double to be rounded
      */
-    protected double round(double a){
+    private double round(double a){
         a = (long)((a*100.0)+0.5);
         return a/100.0;
     }
